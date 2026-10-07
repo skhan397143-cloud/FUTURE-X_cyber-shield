@@ -213,4 +213,4 @@ if st.session_state.real_cyber_ledger:
         st.code(firewall_script, language="bash")
 
 st.info("💡 Tip: To run this code, ensure you have run `pip install streamlit psutil pandas` on your machine.")
-st.title("make this project = shahid khan billion dollar project.")
+st.title("make this project = shahid khan (billionare mindset")
