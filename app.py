@@ -8,7 +8,7 @@ import json
 from concurrent.futures import ThreadPoolExecutor
 
 # === RULE 1: MASTER ENTERPRISE CONFIGURATION ===
-st.set_page_config(page_title="CYBERSHIELD AI - PRODUCTION CORE v9.7", page_icon="🛡️", layout="wide")
+st.set_page_config(page_title="CYBERSHIELD AI - PRODUCTION CORE v10.0", page_icon="🛡️", layout="wide")
 
 REAL_AUDIT_FILE = "global_cyber_shield_audit.txt"
 
@@ -16,7 +16,7 @@ if "real_cyber_ledger" not in st.session_state:
     st.session_state.real_cyber_ledger = []
 
 # === SIDEBAR: SYSTEM TELEMETRY MATRIX ===
-st.sidebar.title("🛰️ CYBERSHIELD OS v9.7")
+st.sidebar.title("🛰️ CYBERSHIELD OS v10.0")
 st.sidebar.subheader("Subdomain & Policy Control")
 st.sidebar.markdown("---")
 
@@ -30,7 +30,7 @@ st.sidebar.markdown("---")
 
 # === THE ENTERPRISE INGESTION INTERFACE ===
 st.sidebar.markdown("### 🌍 Global Target Ingestor")
-input_global_domain = st.sidebar.text_input(label="Enter Enterprise Target Domain", placeholder="Example: google.com")
+input_global_domain = st.sidebar.text_input(label="Enter Enterprise Target Domain", placeholder="Example: apple.com")
 
 # Multi-threading port and subdomain tracking targets
 TARGET_PORTS = [21, 22, 23, 25, 53, 80, 110, 443, 8080]
@@ -128,7 +128,7 @@ if st.sidebar.button("⚡ EXECUTE AUTONOMOUS COMPLIANCE SCAN"):
             
             # Persistent Local File Synchronizer
             with open(REAL_AUDIT_FILE, "a", encoding="utf-8") as file_stream:
-                file_stream.write(f"[{time.ctime()}] V9.7_SCAN -> {clean_url} | IP: {resolved_target_ip} | RISK: {threat_severity_accumulator}%\n")
+                file_stream.write(f"[{time.ctime()}] V10.0_SCAN -> {clean_url} | IP: {resolved_target_ip} | RISK: {threat_severity_accumulator}%\n")
                 
             st.session_state.real_cyber_ledger.append(payload_block)
             st.sidebar.success(f"📌 Connected: {resolved_target_ip}")
@@ -137,12 +137,12 @@ if st.sidebar.button("⚡ EXECUTE AUTONOMOUS COMPLIANCE SCAN"):
         except Exception as hardware_fault:
             st.sidebar.error(f"❌ COMPLIANCE ERROR: {str(hardware_fault)}")
 
-if st.sidebar.button("🧹 Flush Ledger"):
+if st.sidebar.button("导 🪚 Flush Ledger"):
     st.session_state.real_cyber_ledger = []
     st.rerun()
 
 # === MAIN CONTROL PANEL ===
-st.title("🛰️ CyberShield AI: Enterprise Security Orchestrator v9.7")
+st.title("🛰️ CyberShield AI: Enterprise Security Orchestrator v10.0")
 st.markdown("Global Infrastructure Autonomous Threat Protection Node running parallel socket networks on cloud nodes.")
 st.markdown("---")
 
@@ -154,7 +154,7 @@ with c2:
     critical_alerts_count = sum(1 for item in st.session_state.real_cyber_ledger if item['risk_index'] >= 60)
     st.metric(label="🔥 IMMEDIATE MITIGATION RESPONSES", value=f"{critical_alerts_count} THREATS BLOCKED", delta="- Realtime Isolation Active", delta_color="inverse")
 with c3:
-    st.info("💎 **SYSTEM BLUEPRINT:** v9.7 is running high-speed parallel thread pools scanning infrastructure perimeters.")
+    st.info("💎 **SYSTEM BLUEPRINT:** v10.0 is running high-speed parallel thread pools scanning infrastructure perimeters.")
 
 st.markdown("---")
 
@@ -202,4 +202,3 @@ else:
         st.markdown("Execute this script inside the client target server node framework to auto-patch exposed infrastructure:")
         
         hardening_bash_script = "#!/bin/bash\n# CyberShield AI Auto-Generated Infrastructure Mitigation Script\n"
-        hardening_bash_script += f"# Target System Vector: {active_node_data['domain']} | IP: {active_node_data['ip']}\n\n"
