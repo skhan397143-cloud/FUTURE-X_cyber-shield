@@ -131,7 +131,7 @@ if st.sidebar.button("⚡ EXECUTE AUTONOMOUS COMPLIANCE SCAN"):
         except Exception as hardware_fault:
             st.sidebar.error(f"❌ COMPLIANCE ERROR: {str(hardware_fault)}")
 
-if st.sidebar.button("导 🪚 Flush Ledger"):
+if st.sidebar.button("🧹 Flush Ledger"):
     st.session_state.real_cyber_ledger = []
     st.rerun()
 
@@ -198,4 +198,4 @@ else:
         hardening_bash_script = "#!/bin/bash\n# CyberShield AI Auto-Generated Infrastructure Mitigation Script\n"
         hardening_bash_script += f"# Target System Vector: {active_node_data['domain']} | IP: {active_node_data['ip']}\n\n"
         
-    if active_node_data['raw_ports']:
+        if active_node_data['raw_ports']:
