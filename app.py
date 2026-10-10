@@ -198,4 +198,4 @@ else:
         hardening_bash_script = "#!/bin/bash\n# CyberShield AI Auto-Generated Infrastructure Mitigation Script\n"
         hardening_bash_script += f"# Target System Vector: {active_node_data['domain']} | IP: {active_node_data['ip']}\n\n"
         
-if active_node_data['raw_ports']:
+        if active_node_data['raw_ports']:
