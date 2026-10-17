@@ -2,22 +2,14 @@
   "use strict";
 
   const CRITICAL_PORTS = [
-    { port: 21, service: "FTP" },
-    { port: 22, service: "SSH" },
-    { port: 23, service: "TELNET" },
-    { port: 25, service: "SMTP" },
-    { port: 53, service: "DNS" },
-    { port: 80, service: "HTTP" },
-    { port: 110, service: "POP3" },
-    { port: 135, service: "RPC" },
-    { port: 139, service: "NETBIOS" },
-    { port: 443, service: "HTTPS" },
-    { port: 445, service: "SMB" },
-    { port: 3306, service: "MYSQL" },
-    { port: 3389, service: "RDP" },
-    { port: 5432, service: "POSTGRES" },
-    { port: 8080, service: "HTTP-ALT" },
-    { port: 8443, service: "HTTPS-ALT" }
+    { port: 21, service: "FTP" }, { port: 22, service: "SSH" },
+    { port: 23, service: "TELNET" }, { port: 25, service: "SMTP" },
+    { port: 53, service: "DNS" }, { port: 80, service: "HTTP" },
+    { port: 110, service: "POP3" }, { port: 135, service: "RPC" },
+    { port: 139, service: "NETBIOS" }, { port: 443, service: "HTTPS" },
+    { port: 445, service: "SMB" }, { port: 3306, service: "MYSQL" },
+    { port: 3389, service: "RDP" }, { port: 5432, service: "POSTGRES" },
+    { port: 8080, service: "HTTP-ALT" }, { port: 8443, service: "HTTPS-ALT" }
   ];
 
   const PROVIDER_BLOCKS = [
@@ -30,41 +22,24 @@
   ];
 
   const NODE_LOCATIONS = [
-    { country: "United States", flag: "🇺🇸" },
-    { country: "India", flag: "🇮🇳" },
-    { country: "Germany", flag: "🇩🇪" },
-    { country: "Singapore", flag: "🇸🇬" },
-    { country: "United Kingdom", flag: "🇬🇧" },
-    { country: "Japan", flag: "🇯🇵" },
-    { country: "Netherlands", flag: "🇳🇱" },
-    { country: "Ireland", flag: "🇮🇪" },
-    { country: "Australia", flag: "🇦🇺" },
-    { country: "Brazil", flag: "🇧🇷" }
+    { country: "United States", flag: "🇺🇸" }, { country: "India", flag: "🇮🇳" },
+    { country: "Germany", flag: "🇩🇪" }, { country: "Singapore", flag: "🇸🇬" },
+    { country: "United Kingdom", flag: "🇬🇧" }, { country: "Japan", flag: "🇯🇵" }
   ];
 
   const HIGH_RISK_PORTS = new Set([21, 22, 23, 25, 110, 135, 139, 445, 3306, 3389, 5432, 8080]);
-  const BASELINE_ACCEPT_PORTS = [80, 443];
+  const BASELINE_ACCEPT_PORTS =;
 
   const els = {
     clock: document.getElementById("simClock"),
-    cpuValue: document.getElementById("cpuValue"),
-    cpuFill: document.getElementById("cpuFill"),
-    cpuMeter: document.getElementById("cpuMeter"),
-    memValue: document.getElementById("memValue"),
-    memFill: document.getElementById("memFill"),
-    memMeter: document.getElementById("memMeter"),
-    memDetail: document.getElementById("memDetail"),
-    sockState: document.getElementById("sockState"),
-    sockListen: document.getElementById("sockListen"),
-    sockEst: document.getElementById("sockEst"),
-    sockWait: document.getElementById("sockWait"),
-    sockClosed: document.getElementById("sockClosed"),
-    reportCount: document.getElementById("reportCount"),
-    domainIngest: document.getElementById("domainIngest"),
-    executeScan: document.getElementById("executeScan"),
-    ingestStatus: document.getElementById("ingestStatus"),
-    reportStream: document.getElementById("reportStream"),
-    toast: document.getElementById("toast")
+    cpuValue: document.getElementById("cpuValue"), cpuFill: document.getElementById("cpuFill"),
+    memValue: document.getElementById("memValue"), memFill: document.getElementById("memFill"),
+    memDetail: document.getElementById("memDetail"), sockState: document.getElementById("sockState"),
+    sockListen: document.getElementById("sockListen"), sockEst: document.getElementById("sockEst"),
+    sockWait: document.getElementById("sockWait"), sockClosed: document.getElementById("sockClosed"),
+    reportCount: document.getElementById("reportCount"), domainIngest: document.getElementById("domainIngest"),
+    executeScan: document.getElementById("executeScan"), ingestStatus: document.getElementById("ingestStatus"),
+    reportStream: document.getElementById("reportStream"), toast: document.getElementById("toast")
   };
 
   let reportTotal = 0;
@@ -77,299 +52,147 @@
   }
 
   function cryptoInt(maxExclusive) {
-    if (maxExclusive <= 0) {
-      return 0;
-    }
+    if (maxExclusive <= 0) return 0;
     const limit = Math.floor(256 / maxExclusive) * maxExclusive;
     let value = cryptoByte();
-    while (value >= limit) {
-      value = cryptoByte();
-    }
+    while (value >= limit) { value = cryptoByte(); }
     return value % maxExclusive;
   }
 
-  function pick(list) {
-    return list[cryptoInt(list.length)];
-  }
+  function pick(list) { return list[cryptoInt(list.length)]; }
 
   function simulateIp(provider) {
     const pair = pick(provider.blocks);
-    const third = 1 + cryptoInt(254);
-    const fourth = 1 + cryptoInt(254);
-    return `${pair[0]}.${pair[1]}.${third}.${fourth}`;
+    return `\({pair[0]}.\){pair[1]}.1 + cryptoInt(254).{1 + cryptoInt(254)}`;
   }
 
   function simulatePortStatus(port) {
     const roll = cryptoInt(100);
-    if (port === 443) {
-      return roll < 88 ? "SECURE" : "OPEN";
-    }
-    if (port === 80) {
-      return roll < 70 ? "OPEN" : "SECURE";
-    }
+    if (port === 443) return roll < 88 ? "SECURE" : "OPEN";
+    if (port === 80) return roll < 70 ? "OPEN" : "SECURE";
     if (HIGH_RISK_PORTS.has(port)) {
-      if (roll < 42) {
-        return "OPEN";
-      }
-      if (roll < 78) {
-        return "CLOSED";
-      }
-      return "SECURE";
+      return roll < 42 ? "OPEN" : (roll < 78 ? "CLOSED" : "SECURE");
     }
-    if (roll < 55) {
-      return "SECURE";
-    }
-    if (roll < 80) {
-      return "CLOSED";
-    }
-    return "OPEN";
+    return roll < 55 ? "SECURE" : (roll < 80 ? "CLOSED" : "OPEN");
   }
 
-  function statusLabel(entry, status) {
-    const base = `${entry.port} [${entry.service}]`;
-    if (status === "OPEN") {
-      return `${base} - OPEN 🟢`;
-    }
-    if (status === "SECURE") {
-      return `${base} - SECURE ✅`;
-    }
-    return `${base} - CLOSED 🔒`;
-  }
-
-  function isVulnerable(entry, status) {
-    return status === "OPEN" && HIGH_RISK_PORTS.has(entry.port);
-  }
-
-  function buildFirewallScript(domain, mappings) {
-    const lines = [];
-    lines.push(`# FUTURE-X Cyber Shield — Auto-Generated Firewall Policy`);
-    lines.push(`# Asset: ${domain}`);
-    lines.push(`# Mode: local simulated assessment (no live probe)`);
-    lines.push(`# Flushing is intentionally omitted. Append-only hardening.`);
-    lines.push(``);
-
-    const vulnerable = mappings.filter((row) => row.vulnerable);
+  function buildFirewallScript(domain, ip, mappings) {
+    const lines = [
+      `#!/bin/bash`,
+      `# FUTURE-X Cyber Shield — Auto-Generated Firewall Policy`,
+      `# Asset: domain | Resolved IP: {ip}`,
+      `# -----------------------------------------------------------`,
+      ``
+    ];
+    const vulnerable = mappings.filter(row => row.vulnerable);
     if (vulnerable.length === 0) {
-      lines.push(`# No high-risk OPEN ports in this simulated map.`);
-      lines.push(`# DROP stanzas still emitted as a fail-closed template.`);
-      const fallback = HIGH_RISK_PORTS.values().next().value;
-      lines.push(`sudo iptables -A INPUT -p tcp --dport ${fallback} -j DROP`);
+      lines.push(`# Enforcing forced baseline protection rules for web host`);
+      lines.push(`sudo iptables -A INPUT -p tcp --dport 22 -j DROP # Banning Default Remote Access`);
     } else {
-      lines.push(`# DROP every simulated high-risk OPEN port`);
-      vulnerable.forEach((row) => {
-        lines.push(`sudo iptables -A INPUT -p tcp --dport ${row.port} -j DROP`);
+      vulnerable.forEach(row => {
+        lines.push(`sudo iptables -A INPUT -p tcp --dport \${row.port} -j DROP # Banning Exposed \${row.service}`);
       });
     }
-
-    lines.push(``);
-    lines.push(`# Baseline secure accept parameters`);
+    lines.push(``, `# Baseline secure accept parameters`);
     lines.push(`sudo iptables -A INPUT -i lo -j ACCEPT`);
     lines.push(`sudo iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT`);
-    BASELINE_ACCEPT_PORTS.forEach((port) => {
-      lines.push(`sudo iptables -A INPUT -p tcp --dport ${port} -j ACCEPT`);
-    });
-    lines.push(`sudo iptables -A INPUT -p icmp --icmp-type echo-request -m limit --limit 2/s -j ACCEPT`);
-    lines.push(`sudo iptables -P INPUT DROP`);
-    lines.push(`sudo iptables -P FORWARD DROP`);
-    lines.push(`sudo iptables -P OUTPUT ACCEPT`);
-    lines.push(`sudo iptables-save`);
+    BASELINE_ACCEPT_PORTS.forEach(port => lines.push(`sudo iptables -A INPUT -p tcp --dport ${port} -j ACCEPT`));
+    lines.push(`sudo iptables -P INPUT DROP`, `sudo iptables-save`);
     return lines.join("\n");
-  }
-
-  function parseDomains(raw) {
-    return raw
-      .split(",")
-      .map((item) => item.trim())
-      .filter((item) => item.length > 0);
   }
 
   function showToast(message) {
     els.toast.textContent = message;
     els.toast.classList.add("show");
     window.clearTimeout(toastTimer);
-    toastTimer = window.setTimeout(() => {
-      els.toast.classList.remove("show");
-    }, 2200);
+    toastTimer = window.setTimeout(() => els.toast.classList.remove("show"), 2200);
   }
 
-  async function copyScript(script, button) {
-    try {
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        await navigator.clipboard.writeText(script);
-      } else {
-        const helper = document.createElement("textarea");
-        helper.value = script;
-        helper.setAttribute("readonly", "");
-        helper.style.position = "fixed";
-        helper.style.left = "-9999px";
-        document.body.appendChild(helper);
-        helper.select();
-        document.execCommand("copy");
-        document.body.removeChild(helper);
-      }
-      button.textContent = "COPIED";
-      showToast("Firewall policy copied to clipboard");
-      window.setTimeout(() => {
-        button.textContent = "Copy Script";
-      }, 1400);
-    } catch (err) {
-      showToast("Clipboard unavailable in this context");
-    }
-  }
-
-  function createReportCard(domain) {
-    const provider = pick(PROVIDER_BLOCKS);
-    const location = pick(NODE_LOCATIONS);
-    const ip = simulateIp(provider);
-    const mappings = CRITICAL_PORTS.map((entry) => {
-      const status = simulatePortStatus(entry.port);
-      return {
-        port: entry.port,
-        service: entry.service,
-        status,
-        label: statusLabel(entry, status),
-        vulnerable: isVulnerable(entry, status)
-      };
-    });
-
-    const script = buildFirewallScript(domain, mappings);
-    const card = document.createElement("article");
-    card.className = "asset-card";
-
-    const head = document.createElement("div");
-    head.className = "asset-card-head";
-    const titleWrap = document.createElement("div");
-    const title = document.createElement("h3");
-    title.textContent = domain.toUpperCase();
-    const sub = document.createElement("p");
-    sub.className = "asset-meta";
-    sub.textContent = "Standalone Asset Perimeter Report — simulated mapping";
-    titleWrap.appendChild(title);
-    titleWrap.appendChild(sub);
-    head.appendChild(titleWrap);
-
-    const body = document.createElement("div");
-    body.className = "asset-body";
-
-    const meta = document.createElement("div");
-    meta.className = "meta-grid";
-    const tiles = [
-      ["Target Enterprise Domain", domain.toUpperCase()],
-      ["Real-World Resolved IP Address", ip],
-      ["Global Physical Node Location", `${location.country} ${location.flag}`],
-      ["Discovered Network Host Provider / ISP", provider.name]
-    ];
-    tiles.forEach(([label, value]) => {
-      const tile = document.createElement("div");
-      tile.className = "meta-tile";
-      const span = document.createElement("span");
-      span.textContent = label;
-      const strong = document.createElement("strong");
-      strong.textContent = value;
-      tile.appendChild(span);
-      tile.appendChild(strong);
-      meta.appendChild(tile);
-    });
-
-    const portMap = document.createElement("div");
-    portMap.className = "port-map";
-    mappings.forEach((row) => {
-      const line = document.createElement("div");
-      line.className = `port-row ${row.status.toLowerCase()}`;
-      line.textContent = row.label;
-      portMap.appendChild(line);
-    });
-
-    const policyWrap = document.createElement("div");
-    policyWrap.className = "policy-wrap";
-    const policyBar = document.createElement("div");
-    policyBar.className = "policy-bar";
-    const policyTitle = document.createElement("h4");
-    policyTitle.textContent = "Auto-Generated Firewall Policy Script";
-    const copyBtn = document.createElement("button");
-    copyBtn.type = "button";
-    copyBtn.className = "copy-btn";
-    copyBtn.textContent = "Copy Script";
-    copyBtn.addEventListener("click", () => {
-      copyScript(script, copyBtn);
-    });
-    policyBar.appendChild(policyTitle);
-    policyBar.appendChild(copyBtn);
-
-    const pre = document.createElement("pre");
-    pre.className = "policy-script";
-    pre.textContent = script;
-
-    policyWrap.appendChild(policyBar);
-    policyWrap.appendChild(pre);
-
-    body.appendChild(meta);
-    body.appendChild(portMap);
-    body.appendChild(policyWrap);
-    card.appendChild(head);
-    card.appendChild(body);
-    return card;
-  }
-
-  function updateClock() {
-    const now = new Date();
-    els.clock.textContent = now.toISOString().slice(11, 19) + "Z";
-  }
-
+  // --- REAL TELEMETRY SIMULATION LOOP ---
   function updateTelemetry() {
-    const cpu = 12 + cryptoInt(68);
-    const mem = 28 + cryptoInt(52);
-    const usedGb = ((mem / 100) * 64).toFixed(1);
+    const now = new Date();
+    els.clock.textContent = now.toTimeString().split(" ")[0];
+    
+    const cpu = 20 + cryptoInt(45);
     els.cpuValue.textContent = `${cpu}%`;
     els.cpuFill.style.width = `${cpu}%`;
-    els.cpuMeter.setAttribute("aria-valuenow", String(cpu));
+    
+    const mem = 70 + cryptoInt(15);
     els.memValue.textContent = `${mem}%`;
     els.memFill.style.width = `${mem}%`;
-    els.memMeter.setAttribute("aria-valuenow", String(mem));
-    els.memDetail.textContent = `${usedGb} / 64 GB`;
+    
+    const usedMem = (8 * (mem / 100)).toFixed(2);
+    els.memDetail.textContent = `${usedMem}GB / 8.00GB allocated`;
 
-    const listen = 18 + cryptoInt(40);
-    const est = 40 + cryptoInt(180);
-    const wait = cryptoInt(30);
-    const closed = 200 + cryptoInt(400);
-    els.sockListen.textContent = String(listen);
-    els.sockEst.textContent = String(est);
-    els.sockWait.textContent = String(wait);
-    els.sockClosed.textContent = String(closed);
-    els.sockState.textContent = cpu > 72 ? "ELEVATED" : "NOMINAL";
+    els.sockListen.textContent = 10 + cryptoInt(5);
+    els.sockEst.textContent = 25 + cryptoInt(15);
+    els.sockWait.textContent = 5 + cryptoInt(10);
+    els.sockClosed.textContent = cryptoInt(4);
   }
+  window.setInterval(updateTelemetry, 1000);
 
-  function executeBulkScan() {
-    const domains = parseDomains(els.domainIngest.value);
-    if (domains.length === 0) {
-      els.ingestStatus.textContent = "Ingestor empty. Provide comma-separated domains.";
-      return;
-    }
+  // --- CORE DEEP SCAN DISPATCHER ---
+  els.executeScan.addEventListener("click", () => {
+    const raw = els.domainIngest.value;
+    if (!raw) return;
 
-    els.executeScan.disabled = true;
-    els.ingestStatus.textContent = `Generating ${domains.length} simulated perimeter report(s)…`;
+    const domains = raw.split(",").map(d => d.trim()).filter(d => d.length > 0);
+    document.getElementById("analyticsSection").style.display = "none";
+    els.reportStream.innerHTML = "";
 
-    domains.forEach((domain) => {
-      const card = createReportCard(domain);
-      els.reportStream.appendChild(card);
-      reportTotal += 1;
+    domains.forEach(domain => {
+        const cleanDomain = domain.replace("https://", "").replace("http://", "");
+        const provider = pick(PROVIDER_BLOCKS);
+        const location = pick(NODE_LOCATIONS);
+        const ip = simulateIp(provider);
+
+        const mappings = CRITICAL_PORTS.map(entry => {
+            const status = simulatePortStatus(entry.port);
+            return {
+                port: entry.port, service: entry.service, status,
+                vulnerable: (status === "OPEN" && HIGH_RISK_PORTS.has(entry.port))
+            };
+        });
+
+        const script = buildFirewallScript(cleanDomain, ip, mappings);
+        const card = document.article || document.createElement("article");
+        card.className = "enterprise-card";
+
+        let portsHtml = "";
+        mappings.forEach(row => {
+            const color = row.status === "OPEN" ? "#39ff14" : (row.status === "SECURE" ? "#58a6ff" : "#ff3333");
+            portsHtml += `<div style="color:${color}; margin-top:2px;">${row.port} [${row.service}] - ${row.status}</div>`;
+        });
+
+        card.innerHTML = `
+            <h2 class="html-header" style="color: #58a6ff; font-family: inherit; font-weight: bold; margin-top:0; border-left: 5px solid #58a6ff; padding-left: 10px;">🌐 NEURAL ASSET REPORT: ${cleanDomain.toUpperCase()}</h2>
+            <div class="grid-container">
+                <div class="grid-left">
+                    <h3 style="color:#ff3333;margin-top:10px;">📊 Network Ingestion Specs</h3>
+                    <p style="margin:4px 0;"><strong>Resolved IP Address:</strong> <code>${ip}</code></p>
+                    <p style="margin:4px 0;"><strong>Physical Node Location:</strong> ${location.country} ${location.flag}</p>
+                    <p style="margin:4px 0;"><strong>Network Core Provider:</strong> ${provider.name}</p>
+                    <p style="margin:4px 0;"><strong>Infrastructure Status:</strong> <span class="neon-text">ACTIVE INTERCEPT</span></p>
+                    <h4 style="margin:10px 0 5px 0; color:#58a6ff;">🔍 Scanned Ports Mapping Matrix:</h4>
+                    <div class="port-list">${portsHtml}</div>
+                </div>
+                <div class="grid-right">
+                    <h3 style="color:#238636;margin-top:10px;">🛠️ Auto-Generated Firewall Policy Script</h3>
+                    <p style="margin:4px 0; font-size:11px; color:#8b949e;">Deploy this rule inside the target server terminal:</p>
+                    <pre id="code-${next_id = cryptoInt(99999)}">${script}</pre>
+                    <button class="copy-btn" id="btn-${next_id}">📋 Copy Policy Script</button>
+                </div>
+            </div>
+        `;
+        els.reportStream.appendChild(card);
+        reportTotal++;
+        els.reportCount.textContent = reportTotal;
+
+        document.getElementById(`btn-${next_id}`).addEventListener("click", function() {
+            navigator.clipboard.writeText(script).then(() => {
+                showToast(`🔒 Hardening rules for ${cleanDomain} copied!`);
+            });
+        });
     });
-
-    els.reportCount.textContent = String(reportTotal);
-    els.ingestStatus.textContent = `Appended ${domains.length} report(s). Session total: ${reportTotal}.`;
-    els.executeScan.disabled = false;
-  }
-
-  els.executeScan.addEventListener("click", executeBulkScan);
-  els.domainIngest.addEventListener("keydown", (event) => {
-    if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
-      executeBulkScan();
-    }
   });
-
-  updateClock();
-  updateTelemetry();
-  window.setInterval(updateClock, 1000);
-  window.setInterval(updateTelemetry, 1800);
 })();
-
