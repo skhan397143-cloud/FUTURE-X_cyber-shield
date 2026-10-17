@@ -1,116 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="FUTURE-X Cyber Shield — local simulated perimeter defense console. No live scanning.">
-  <title>FUTURE-X Cyber Shield | Perimeter Defense Console</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FUTURE-X // CYBER SHIELD OS</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="grid-overlay" aria-hidden="true"></div>
-  <div class="scanline" aria-hidden="true"></div>
+    <div class="app-container">
+        <div class="sidebar">
+            <h2>🛰️ CYBERSHIELD OS</h2>
+            <p class="tagline">Local Neural Engine Lab</p>
+            <div id="simClock" class="clock-display">00:00:00</div>
+            <hr class="divider">
+            
+            <div class="telemetry-block">
+                <h3>🖥️ System Telemetry</h3>
+                <div class="metric">💻 CPU LOAD: <span id="cpuValue" class="neon-text">0%</span></div>
+                <div class="meter-bg"><div id="cpuFill" class="meter-fill"></div></div>
+                <div class="metric">🧠 RAM ALLOC: <span id="memValue" class="neon-text">0%</span></div>
+                <div class="meter-bg"><div id="memFill" class="meter-fill"></div></div>
+                <p id="memDetail" class="detail-text">0GB / 0GB used</p>
+            </div>
+            
+            <div class="telemetry-block">
+                <h3>📡 Network Sockets (<span id="sockState">STABLE</span>)</h3>
+                <div class="sock-grid">
+                    <div>LISTEN: <span id="sockListen">0</span></div>
+                    <div>ESTAB: <span id="sockEst">0</span></div>
+                    <div>TIME_WAIT: <span id="sockWait">0</span></div>
+                    <div>CLOSED: <span id="sockClosed">0</span></div>
+                </div>
+            </div>
+            
+            <div class="ingestor-form">
+                <h3>🌍 Bulk Targets Ingestor</h3>
+                <label for="domainIngest">Enter Domains (Comma Separated)</label>
+                <textarea id="domainIngest" placeholder="github.com, tesla.com, chatgpt.com"></textarea>
+                <button id="executeScan">🚨 EXECUTE AUTONOMOUS SCAN</button>
+                <p id="ingestStatus" class="status-msg"></p>
+            </div>
+        </div>
 
-  <header class="topbar">
-    <div class="brand">
-      <span class="brand-glyph" aria-hidden="true">⬢</span>
-      <div>
-        <p class="brand-kicker">FUTURE-X // CYBER SHIELD</p>
-        <h1>Asset Perimeter Defense Console</h1>
-      </div>
+        <div class="main-content">
+            <div class="top-header">
+                <h1>🛡️ Asset Perimeter Defense Console</h1>
+                <div class="badge">SECURED NODES: <span id="reportCount">0</span></div>
+            </div>
+            <p class="subtitle">Autonomous Multi-Domain Threat Assessment Engine running parallel network socket handshakes.</p>
+            <div id="analyticsSection" class="analytics-placeholder">
+                🟢 Local neural lines verified as clean. Ingest target enterprise domains in the sidebar to engage automated policy hardening routines.
+            </div>
+            <div id="reportStream"></div>
+        </div>
     </div>
-    <div class="topbar-meta">
-      <span class="badge badge-live" id="simClock">--:--:--</span>
-      <span class="badge badge-mode">LOCAL SIMULATION</span>
-      <span class="badge badge-secure">DEFENSE-ONLY</span>
-    </div>
-  </header>
-
-  <div class="app-shell">
-    <aside class="sidebar" aria-label="Live system telemetry">
-      <section class="panel">
-        <h2>Live System Stats</h2>
-        <p class="panel-hint">Synthetic host telemetry. Values are generated locally.</p>
-
-        <article class="stat-card" aria-labelledby="cpuLabel">
-          <div class="stat-head">
-            <h3 id="cpuLabel">Simulated CPU Load</h3>
-            <span class="stat-value" id="cpuValue">0%</span>
-          </div>
-          <div class="meter" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="cpuMeter">
-            <div class="meter-fill cpu" id="cpuFill"></div>
-          </div>
-        </article>
-
-        <article class="stat-card" aria-labelledby="memLabel">
-          <div class="stat-head">
-            <h3 id="memLabel">Memory Allocation</h3>
-            <span class="stat-value" id="memValue">0%</span>
-          </div>
-          <div class="meter" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="memMeter">
-            <div class="meter-fill mem" id="memFill"></div>
-          </div>
-          <p class="stat-sub" id="memDetail">0 / 64 GB</p>
-        </article>
-
-        <article class="stat-card" aria-labelledby="sockLabel">
-          <div class="stat-head">
-            <h3 id="sockLabel">Network Sockets Status</h3>
-            <span class="stat-value" id="sockState">NOMINAL</span>
-          </div>
-          <ul class="socket-list" id="socketList">
-            <li><span>LISTEN</span><strong id="sockListen">0</strong></li>
-            <li><span>ESTABLISHED</span><strong id="sockEst">0</strong></li>
-            <li><span>TIME_WAIT</span><strong id="sockWait">0</strong></li>
-            <li><span>CLOSED</span><strong id="sockClosed">0</strong></li>
-          </ul>
-        </article>
-      </section>
-
-      <section class="panel">
-        <h2>Defense Posture</h2>
-        <dl class="kv">
-          <div><dt>Engine</dt><dd>Native ES6+ / Local</dd></div>
-          <div><dt>Scan Mode</dt><dd>Simulated Mapping</dd></div>
-          <div><dt>Policy Output</dt><dd>iptables Hardening</dd></div>
-          <div><dt>Reports</dt><dd id="reportCount">0</dd></div>
-        </dl>
-      </section>
-    </aside>
-
-    <main class="main">
-      <section class="ingest-panel" aria-labelledby="ingestTitle">
-        <div class="ingest-head">
-          <div>
-            <h2 id="ingestTitle">Bulk Infrastructure Ingestor</h2>
-            <p>Enter comma-separated enterprise domains. Each asset receives a standalone perimeter report. Resolution, geolocation, ISP, and port maps are simulated — this console does not probe live hosts.</p>
-          </div>
-        </div>
-        <label class="sr-only" for="domainIngest">Comma-separated domains</label>
-        <textarea
-          id="domainIngest"
-          class="ingest-area"
-          spellcheck="false"
-          placeholder="example.com, corp.internal.example, edge-cdn.example.net"
-        ></textarea>
-        <div class="ingest-actions">
-          <button type="button" id="executeScan" class="btn-execute">EXECUTE AUTONOMOUS BULK SCAN</button>
-          <p class="ingest-status" id="ingestStatus" role="status"></p>
-        </div>
-      </section>
-
-      <section class="reports" aria-labelledby="reportsTitle">
-        <div class="reports-head">
-          <h2 id="reportsTitle">Asset Perimeter Reports</h2>
-          <p>New cards append below. Previous assessments remain in the session.</p>
-        </div>
-        <div id="reportStream" class="report-stream"></div>
-      </section>
-    </main>
-  </div>
-
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-  <script src="script.js"></script>
+    <div id="toast" class="toast-popup">Notification</div>
+    <script src="script.js"></script>
 </body>
 </html>
-
